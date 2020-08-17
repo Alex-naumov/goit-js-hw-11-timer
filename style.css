@@ -1,0 +1,24 @@
+.timer {
+  margin: 0 auto;
+  width: 1000px;
+  display: flex;
+  justify-content: space-between;
+}
+.field {
+  align-items: center;
+}
+
+.value {
+  font-size: 150px;
+  font-family: "Bitter", serif;
+  font-weight: 900;
+}
+
+.label {
+  font-size: 50px;
+
+  text-align: center;
+}
+h1 {
+  text-align: center;
+}
