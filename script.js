@@ -1,27 +1,60 @@
-refs = {
-  days: document.querySelector(`span[data-value="days"]`),
-  hours: document.querySelector(`span[data-value="hours"]`),
-  mins: document.querySelector(`span[data-value="mins"]`),
-  secs: document.querySelector(`span[data-value="secs"]`),
-};
-dateEnd = new Date("09/1/2020");
-dateStart = new Date();
-setInterval(() => {
-  dateEnd = new Date("09/1/2020");
-  dateStart = new Date();
-  Timer();
-}, 1000);
+class CountdownTimer {
+  constructor(obj) {
+    this.selector = obj.selector;
+    this.targetDate = obj.targetDate;
+  }
+  timerStart() {
+    const timerHtml = document.querySelector(this.selector);
 
-const Timer = () => {
-  let diff = dateEnd - dateStart;
-  let days = diff / 1000 / 3600 / 24;
-  let hours = (days % 1) * 24;
-  let mins = (hours % 1) * 60;
-  let secs = (mins % 1) * 60;
+    const render = () => {
+      const dateNow = new Date();
+      const time = this.targetDate - dateNow;
+      const days = Math.floor(time / (1000 * 60 * 60 * 24))
+        .toString()
+        .padStart(2, 0);
+      const hours = Math.floor(
+        (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      )
+        .toString()
+        .padStart(2, 0);
+      const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60))
+        .toString()
+        .padStart(2, 0);
+      const secs = Math.floor((time % (1000 * 60)) / 1000)
+        .toString()
+        .padStart(2, 0);
+      console.log(timer);
+      timerHtml.innerHTML = `
+        <div class="field">
+          <span class="value" data-value="days">${days}</span><br />
+          <span class="label">Days</span>
+        </div>
+  
+        <div class="field">
+          <span class="value" data-value="hours">${hours}</span><br />
+          <span class="label">Hours</span>
+        </div>
+  
+        <div class="field">
+          <span class="value" data-value="mins">${mins}</span><br />
+          <span class="label">Minutes</span>
+        </div>
+  
+        <div class="field">
+          <span class="value" data-value="secs">${secs}</span><br />
+          <span class="label">Seconds</span>
+        </div>
+      `;
+    };
+    render();
+    setInterval(() => {
+      render();
+    }, 1000);
+  }
+}
+let timer = new CountdownTimer({
+  selector: "#timer-1",
+  targetDate: new Date("09/1/2020"),
+});
 
-  refs.days.textContent = Math.floor(days).toString().padStart(2, 0);
-  refs.hours.textContent = Math.floor(hours).toString().padStart(2, 0);
-  refs.mins.textContent = Math.floor(mins).toString().padStart(2, 0);
-  refs.secs.textContent = Math.floor(secs).toString().padStart(2, 0);
-};
-Timer();
+timer.timerStart();
